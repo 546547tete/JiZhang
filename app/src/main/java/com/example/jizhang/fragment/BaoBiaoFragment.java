@@ -44,14 +44,14 @@ public class BaoBiaoFragment extends Fragment {
         vp = view.findViewById(R.id.vp_baobiao);
 
         list = new ArrayList<>();
-        list.add(new FenleiBaoFragment());
+        list.add(new MeiZhouFragment());
         list.add(new MeiYueBaoFragment());
 
         vpBaoBiaoAdapter = new VpBaoBiaoAdapter(getChildFragmentManager(), 0, list);
         vp.setAdapter(vpBaoBiaoAdapter);
         tab.setupWithViewPager(vp);
 
-        tab.getTabAt(0).setText("分类报");
+        tab.getTabAt(0).setText("每周报");
         tab.getTabAt(1).setText("每月报");
     }
 }

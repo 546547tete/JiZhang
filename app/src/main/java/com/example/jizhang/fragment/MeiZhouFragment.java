@@ -13,9 +13,9 @@ import com.example.jizhang.R;
 /**
  * A simple {@link Fragment} subclass.
  */
-public class FenleiBaoFragment extends Fragment {
+public class MeiZhouFragment extends Fragment {
 
-    public FenleiBaoFragment() {
+    public MeiZhouFragment() {
         // Required empty public constructor
     }
 
@@ -24,6 +24,6 @@ public class FenleiBaoFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_fenlei_bao, container, false);
+        return inflater.inflate(R.layout.fragment_mei_zhou, container, false);
     }
 }
