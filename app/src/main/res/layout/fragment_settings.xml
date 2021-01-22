@@ -16,7 +16,7 @@
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rcy_settings"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/dp_500" />
+        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/et_add_settings"
