@@ -1,14 +1,51 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:fillViewport="true"
     tools:context=".fragment.SettingsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
+        android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+        android:layout_height="match_parent">
 
-</FrameLayout>
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/rcy_settings"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/dp_500" />
+
+    <EditText
+        android:id="@+id/et_add_settings"
+        android:layout_centerHorizontal="true"
+        android:layout_width="@dimen/dp_230"
+        android:layout_height="wrap_content"
+        android:hint="请输入要添加的类型"
+        android:layout_gravity="center"
+        android:drawableLeft="@drawable/add"
+        android:layout_marginTop="@dimen/dp_30"
+        android:layout_marginBottom="@dimen/dp_30"
+        android:maxLines="1"
+        android:ellipsize="end"
+        />
+
+        <View
+            android:layout_weight="1"
+            android:layout_width="0dp"
+            android:layout_height="@dimen/dp_0"/>
+
+    <Button
+        android:id="@+id/bt_add_settings"
+        android:layout_width="@dimen/dp_150"
+        android:layout_height="wrap_content"
+        android:text="添加"
+        android:layout_gravity="center_horizontal"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="@dimen/dp_30"
+        />
+
+    </LinearLayout>
+</ScrollView>
