@@ -2,6 +2,7 @@ package com.example.jizhang;
 
 import android.os.Bundle;
 
+import com.example.httplibrary.utils.JsonUtils;
 import com.example.jizhang.adapter.Vpadapter;
 import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.fragment.BaoBiaoFragment;
@@ -56,5 +57,32 @@ public class MainActivity extends AppCompatActivity {
         tab.getTabAt(0).setText("记账").setIcon(R.drawable.book);
         tab.getTabAt(1).setText("报表").setIcon(R.drawable.baobiao);
         tab.getTabAt(2).setText("设置").setIcon(R.drawable.settings);
+
+//        HashMap<String, String> hashMap = new HashMap<>();
+//        RetrofitUtils.getInstance()
+//                .getDataBean("", hashMap)
+//                .subscribeOn(Schedulers.io())
+//                .observeOn(AndroidSchedulers.mainThread())
+//                .subscribe(new Observer<JsonElement>() {
+//                    @Override
+//                    public void onSubscribe(Disposable d) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onNext(JsonElement jsonElement) {
+//                        DataBean dataBean = JsonUtils.jsonToClass(jsonElement, DataBean.class);
+//                    }
+//
+//                    @Override
+//                    public void onError(Throwable e) {
+//
+//                    }
+//
+//                    @Override
+//                    public void onComplete() {
+//
+//                    }
+//                });
     }
 }

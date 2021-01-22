@@ -20,22 +20,19 @@
 
     <EditText
         android:id="@+id/et_add_settings"
-        android:layout_centerHorizontal="true"
-        android:layout_width="@dimen/dp_230"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:hint="请输入要添加的类型"
-        android:layout_gravity="center"
+        android:layout_gravity="center_horizontal"
         android:drawableLeft="@drawable/add"
         android:layout_marginTop="@dimen/dp_30"
         android:layout_marginBottom="@dimen/dp_30"
-        android:maxLines="1"
-        android:ellipsize="end"
         />
 
         <View
             android:layout_weight="1"
-            android:layout_width="0dp"
-            android:layout_height="@dimen/dp_0"/>
+            android:layout_width="1dp"
+            android:layout_height="@dimen/dp_1"/>
 
     <Button
         android:id="@+id/bt_add_settings"
