@@ -1,9 +1,11 @@
-package com.example.jizhang;
+package com.example.jizhang.utils;
 
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.telephony.TelephonyManager;
 import android.text.TextUtils;
+
+import com.example.jizhang.BaseApp;
 
 import java.util.UUID;
 
