@@ -34,6 +34,10 @@ public interface ApiService {
     @GET("monthly_trend")
     Observable<AddEntryBean> getMonthlyTrend(@QueryMap Map<String,Object> map);
 
+    //查询所有类别
+    @GET("monthly_trend")
+    Observable<AddEntryBean> getLeiBie(@QueryMap Map<String,Object> map);
+
 
     //添加单条消费事件
     @POST("add_entry")
