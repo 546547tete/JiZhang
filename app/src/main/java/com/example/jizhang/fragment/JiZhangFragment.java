@@ -71,8 +71,8 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
         map.put("category",leibie);
-        map.put("description ",shuoming);
-        map.put("amount ",money);
+        map.put("description",shuoming);
+        map.put("amount",money);
         Log.e("", "initData: "+ContextUtils.UUID_JIZHANG );
         RetrofitUtils.getInstance()
                 .getAddEntry(map)
