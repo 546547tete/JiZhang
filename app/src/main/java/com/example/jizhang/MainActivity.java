@@ -1,6 +1,7 @@
 package com.example.jizhang;
 
 import android.os.Bundle;
+import android.util.Log;
 
 import com.example.httplibrary.utils.JsonUtils;
 import com.example.jizhang.adapter.Vpadapter;
@@ -9,7 +10,9 @@ import com.example.jizhang.fragment.BaoBiaoFragment;
 import com.example.jizhang.fragment.JiZhangFragment;
 import com.example.jizhang.fragment.SettingsFragment;
 import com.example.jizhang.utils.ApiService;
+import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
+import com.example.jizhang.utils.UUIDUtils;
 import com.google.android.material.tabs.TabLayout;
 import com.google.gson.JsonElement;
 
@@ -26,7 +29,7 @@ import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = "MainActivity";
     private ViewPager vp;
     private TabLayout tab;
     private ArrayList<Fragment> list;
@@ -57,6 +60,10 @@ public class MainActivity extends AppCompatActivity {
         tab.getTabAt(0).setText("记账").setIcon(R.drawable.book);
         tab.getTabAt(1).setText("报表").setIcon(R.drawable.baobiao);
         tab.getTabAt(2).setText("设置").setIcon(R.drawable.settings);
+
+//        String phoneSign = UUIDUtils.getPhoneSign();
+        Log.e(TAG, "initView: "+ ContextUtils.UUID_JIZHANG);
+
 
 //        HashMap<String, String> hashMap = new HashMap<>();
 //        RetrofitUtils.getInstance()
