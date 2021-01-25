@@ -51,7 +51,7 @@ public class BaoBiaoFragment extends Fragment {
         vp.setAdapter(vpBaoBiaoAdapter);
         tab.setupWithViewPager(vp);
 
-        tab.getTabAt(0).setText("每周报");
-        tab.getTabAt(1).setText("每月报");
+        tab.getTabAt(0).setText("每月趋势");
+        tab.getTabAt(1).setText("每月数据");
     }
 }

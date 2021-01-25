@@ -7,12 +7,14 @@ import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
+import android.widget.Toast;
 
 import com.example.jizhang.R;
 
@@ -47,6 +49,16 @@ public class SettingsFragment extends Fragment {
         rcy.setLayoutManager(new LinearLayoutManager(getContext()));
         rcy.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
 
+        bt_add.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String add = et_add.getText().toString().trim();
+                if (!TextUtils.isEmpty(add)){
 
+                }else {
+                    Toast.makeText(getContext(), "请先输入要添加的类别", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 }
