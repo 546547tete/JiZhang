@@ -22,7 +22,7 @@ public class RetrofitUtils {
         Retrofit retrofit = new Retrofit.Builder()
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .addConverterFactory(GsonConverterFactory.create())
-                .baseUrl("http://192.168.31.13:8000/")
+                .baseUrl("http://192.168.31.13:8001/")
                 .build();
         ApiService apiService = retrofit.create(ApiService.class);
         return apiService;

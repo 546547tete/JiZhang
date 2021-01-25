@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
@@ -35,9 +36,9 @@ public interface ApiService {
 
 
     //添加单条消费事件
-    @POST("add_entry/")
+    @POST("add_entry")
     @FormUrlEncoded
-    Observable<AddEntryBean> getAddEntry(@PartMap Map<String,Object> queryMap);
+    Observable<AddEntryBean> getAddEntry(@FieldMap Map<String,Object> queryMap);
 
     //添加类别
     @POST("add_category")

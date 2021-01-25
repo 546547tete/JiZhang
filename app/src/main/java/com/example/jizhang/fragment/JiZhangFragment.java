@@ -7,11 +7,13 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.example.httplibrary.utils.LogUtils;
 import com.example.jizhang.R;
 import com.example.jizhang.bean.AddEntryBean;
 import com.example.jizhang.utils.ContextUtils;
@@ -36,12 +38,11 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
     private EditText mTimeJizhangEt;
     private EditText mShuomingJizhangEt;
     private Button mOkJizhangBt;
+    private String money;
+    private String leibie;
+    private String shuoming;
+    private String time;
 
-    private EditText et_money;
-    private EditText et_leibie;
-    private EditText et_time;
-    private EditText et_shuoming;
-    private Button bt_ok;
 
     public JiZhangFragment() {
         // Required empty public constructor
@@ -58,14 +59,20 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         // Inflate the layout for this fragment
         View inflate = inflater.inflate(R.layout.fragment_ji_zhang, container, false);
         initView(inflate);
-        initData();
         return inflate;
     }
 
     private void initData() {
+        money = mMoneyJizhangEt.getText().toString().trim();
+        leibie = mLeibieJizhangEt.getText().toString().trim();
+        shuoming = mShuomingJizhangEt.getText().toString().trim();
+        time = mTimeJizhangEt.getText().toString().trim();
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
+        map.put("category",leibie);
+        map.put("description ",shuoming);
+        map.put("amount ",money);
         Log.e("", "initData: "+ContextUtils.UUID_JIZHANG );
         RetrofitUtils.getInstance()
                 .getAddEntry(map)
@@ -80,13 +87,16 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                     @Override
                     public void onNext(AddEntryBean addEntryBean) {
                         List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
-                        AddEntryBean.DetailBean detailBean = detail.get(0);
-
+                        for (int i = 0; i < detail.size(); i++) {
+                            AddEntryBean.DetailBean bean = detail.get(i);
+                            String msg = bean.getMsg();
+                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
+                        Log.e("TAG",e.getMessage());
                     }
 
                     @Override
@@ -103,6 +113,7 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         mShuomingJizhangEt = (EditText) itemView.findViewById(R.id.et_shuoming_jizhang);
         mOkJizhangBt = (Button) itemView.findViewById(R.id.bt_ok_jizhang);
         mOkJizhangBt.setOnClickListener(this);
+
     }
 
     @Override
@@ -110,7 +121,8 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bt_ok_jizhang:
                 // TODO 21/01/25
-
+                initData();
+//                Toast.makeText(getContext(), shuoming, Toast.LENGTH_SHORT).show();
                 break;
             default:
                 break;
