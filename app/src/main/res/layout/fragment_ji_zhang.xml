@@ -98,8 +98,8 @@
             android:layout_marginLeft="@dimen/dp_30"
             />
 
-        <EditText
-            android:id="@+id/et_time_jizhang"
+        <TextView
+            android:id="@+id/tv_time_jizhang"
             android:layout_width="match_parent"
             android:layout_height="@dimen/dp_45"
             android:hint="请输入时间"

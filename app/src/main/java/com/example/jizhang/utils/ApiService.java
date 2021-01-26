@@ -1,6 +1,7 @@
 package com.example.jizhang.utils;
 
 import com.example.jizhang.bean.AddEntryBean;
+import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.bean.EntriesBean;
 import com.example.jizhang.bean.TestBean;
@@ -30,8 +31,8 @@ public interface ApiService {
     Observable<List<EntriesBean>> getEntries(@QueryMap Map<String,Object> map);
 
     //查询类别
-    @GET("categories_pie")
-    Observable<AddEntryBean> getCategoriesPie(@QueryMap Map<String,Object> map);
+    @GET()
+    Observable<List<CategoriesPieBean>> getCategoriesPie(@Url String url);
 
     //查询月报表
     @GET("monthly_trend")

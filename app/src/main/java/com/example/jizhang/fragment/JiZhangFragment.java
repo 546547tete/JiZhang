@@ -1,5 +1,7 @@
 package com.example.jizhang.fragment;
 
+import android.app.Activity;
+import android.app.DatePickerDialog;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -7,7 +9,9 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -23,6 +27,7 @@ import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
 import com.example.jizhang.utils.UUIDUtils;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
@@ -41,13 +46,14 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
 
     private EditText mMoneyJizhangEt;
     private EditText mLeibieJizhangEt;
-    private EditText mTimeJizhangEt;
+    private TextView tv_time_jizhang;
     private EditText mShuomingJizhangEt;
     private Button mOkJizhangBt;
     private String money;
     private String leibie;
     private String shuoming;
     private String time;
+    private Calendar calendar;
 
 
     public JiZhangFragment() {
@@ -120,10 +126,19 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
     private void initView(@NonNull final View itemView) {
         mMoneyJizhangEt = (EditText) itemView.findViewById(R.id.et_money_jizhang);
         mLeibieJizhangEt = (EditText) itemView.findViewById(R.id.et_leibie_jizhang);
-        mTimeJizhangEt = (EditText) itemView.findViewById(R.id.et_time_jizhang);
+        tv_time_jizhang = (TextView) itemView.findViewById(R.id.tv_time_jizhang);
         mShuomingJizhangEt = (EditText) itemView.findViewById(R.id.et_shuoming_jizhang);
         mOkJizhangBt = (Button) itemView.findViewById(R.id.bt_ok_jizhang);
         mOkJizhangBt.setOnClickListener(this);
+
+        calendar = Calendar.getInstance();
+
+        tv_time_jizhang.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showDatePickerDialog(getActivity(), 3, tv_time_jizhang, calendar);
+            }
+        });
 
     }
 
@@ -194,4 +209,34 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                     }
                 });
     }
+
+    /**
+     * 日期
+     * themeResId 1-5任意输入(5种不同的时间选择器)
+     * <p>
+     * tvTime 设置时间
+     * <p>
+     * calendar  楼上写的有
+     */
+    public void showDatePickerDialog(Activity activity, int themeResId, final TextView tvTime, Calendar calendar) {
+        // 直接创建一个DatePickerDialog对话框实例，并将它显示出来
+        new DatePickerDialog(activity, themeResId
+                // 绑定监听器(How the parent is notified that the date is set.)
+                , new DatePickerDialog.OnDateSetListener() {
+            private String times;
+
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                // 此处得到选择的时间，可以进行你想要的操作
+                times = year + "-" + (monthOfYear + 1) + "-" + dayOfMonth;
+                tvTime.setText(times);
+            }
+        }
+                // 设置初始日期
+                , calendar.get(Calendar.YEAR)
+                , calendar.get(Calendar.MONTH)
+                , calendar.get(Calendar.DAY_OF_MONTH)).show();
+    }
+
+
 }

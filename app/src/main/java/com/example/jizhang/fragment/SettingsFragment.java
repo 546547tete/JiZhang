@@ -108,7 +108,7 @@ public class SettingsFragment extends Fragment {
                         @Override
                         public void onNext(AddEntryBean addEntryBean) {
                             //将数据添加到集合中
-                            settingsAdapter.setData(list);
+                            Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override
