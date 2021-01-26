@@ -58,17 +58,6 @@ public class MeiYueBaoFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 initDateNew();
-//                initDate();
-//                ZheXianView zheXianView = new ZheXianView(getActivity());
-//                Map<String ,Float> map=new LinkedHashMap<>() ;//一定要用有序的Map
-//                map.put("周一",8.0f);
-//                map.put("周二",19.0f);
-//                map.put("周三",10.0f);
-//                map.put("周四",30.0f);
-//                map.put("周五",15.0f);
-//                String[] a=new String[]{"10","20","30","40","50"};
-//                zheXianView.startDraw(map,a,"m/s",40,16);
-//                zheXianView.initView();
             }
         });
     }
@@ -107,49 +96,4 @@ public class MeiYueBaoFragment extends Fragment {
                     }
                 });
     }
-
-    private void initDate() {
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("hardware_id:", ContextUtils.UUID_JIZHANG);
-        map.put("from_y:",2020);
-        map.put("from_m:",12);
-        map.put("to_y:",2021);
-        map.put("to_m:",1);
-        map.put("accept:","application/json");
-
-        RetrofitUtils.getInstance()
-                .getMonthlyTrend(map)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AddEntryBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(AddEntryBean addEntryBean) {
-                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
-                        for (int i = 0; i < detail.size(); i++) {
-                            AddEntryBean.DetailBean bean = detail.get(i);
-                            String msg = bean.getMsg();
-                            Toast.makeText(getContext(), msg.toString(), Toast.LENGTH_SHORT).show();
-                        }
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG",e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-
-
-    }
-
-
 }

@@ -43,7 +43,7 @@ public interface ApiService {
 
 
     //添加单条消费事件
-    @POST()
+    @GET()
     Observable<DataBean> getAddEntry(@Url String url);
 
     //添加类别
@@ -59,6 +59,8 @@ public interface ApiService {
     @PUT("delete_category")
     Observable<AddEntryBean> getDeleteCategory(@PartMap Map<String,Object> queryMap);
 
+
+    //每月扇形图数据
     @GET()
     Observable<List<TestBean>> getBean(@Url String url);
 }

@@ -18,6 +18,7 @@ import com.example.httplibrary.utils.LogUtils;
 import com.example.jizhang.R;
 import com.example.jizhang.bean.AddEntryBean;
 import com.example.jizhang.bean.DataBean;
+import com.example.jizhang.utils.ApiService;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
 import com.example.jizhang.utils.UUIDUtils;
@@ -29,6 +30,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -128,6 +132,7 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bt_ok_jizhang:
                 // TODO 21/01/25
+                initDateNew();
 //                money = mMoneyJizhangEt.getText().toString().trim();
 //                leibie = mLeibieJizhangEt.getText().toString().trim();
 //                shuoming = mShuomingJizhangEt.getText().toString().trim();
@@ -138,7 +143,7 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
 //                    if (!TextUtils.isEmpty(shuoming)) {
 //                        if (!TextUtils.isEmpty(money)) {
 //                            int parseInt = Integer.parseInt(money);
-                            initData(leibie, shuoming, money);
+//                            initData(leibie, shuoming, money);
 //                        } else {
 //                            Log.e(TAG, "onClick: money = 空" + money);
 //                        }
@@ -153,5 +158,40 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
             default:
                 break;
         }
+    }
+
+    private void initDateNew() {
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl("http://192.168.31.13:8001/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        ApiService service = build.create(ApiService.class);
+        service.getAddEntry("add_entry/"+ContextUtils.UUID_JIZHANG+"娱乐"+"唱歌"+123)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DataBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(DataBean dataBean) {
+                        String error_msg = dataBean.getError_msg();
+                        int error_code = dataBean.getError_code();
+                        Toast.makeText(getContext(), error_code+error_msg, Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e(TAG, "onError: "+ e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
     }
 }
