@@ -54,6 +54,7 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
     private String shuoming;
     private String time;
     private Calendar calendar;
+    private static final String TAG = "JiZhangFragment";
 
 
     public JiZhangFragment() {
@@ -74,54 +75,7 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         return inflate;
     }
 
-    private void initData(String leibie, String shuoming, String money) {
 
-
-        HashMap<String, Object> map = new HashMap<>();
-        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-        map.put("category", leibie);
-        map.put("description", shuoming);
-        map.put("amount", money);
-        Log.e("", "initData: " + ContextUtils.UUID_JIZHANG);
-        RetrofitUtils.getInstance()
-                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG  + leibie + shuoming  + money)
-//                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG + "/" + leibie + "/" + shuoming + "/" + money)
-//                .getAddEntry("add_entry/aid633e2151-90ba-4251-a7a0-ead4e0d0ad9a/%E5%A8%B1%E4%B9%90/%E7%9A%84%E9%A3%8E%E6%A0%BC%E5%92%8C%E5%81%A5%E5%BA%B7/"+123)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DataBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(DataBean addEntryBean) {
-
-                        Log.e("TAG", "onNext: " + addEntryBean.getError_msg() + addEntryBean.getError_code());
-
-//                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
-//                        for (int i = 0; i < detail.size(); i++) {
-//                            AddEntryBean.DetailBean bean = detail.get(i);
-//                            String msg = bean.getMsg();
-//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-//                        }
-
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e("TAG = AddEntry", e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-    private static final String TAG = "JiZhangFragment";
 
     private void initView(@NonNull final View itemView) {
         mMoneyJizhangEt = (EditText) itemView.findViewById(R.id.et_money_jizhang);
@@ -209,6 +163,52 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                     }
                 });
     }
+
+    private void initData(String leibie, String shuoming, String money) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
+        map.put("category", leibie);
+        map.put("description", shuoming);
+        map.put("amount", money);
+        Log.e("", "initData: " + ContextUtils.UUID_JIZHANG);
+        RetrofitUtils.getInstance()
+                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG  + leibie + shuoming  + money)
+//                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG + "/" + leibie + "/" + shuoming + "/" + money)
+//                .getAddEntry("add_entry/aid633e2151-90ba-4251-a7a0-ead4e0d0ad9a/%E5%A8%B1%E4%B9%90/%E7%9A%84%E9%A3%8E%E6%A0%BC%E5%92%8C%E5%81%A5%E5%BA%B7/"+123)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DataBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(DataBean addEntryBean) {
+
+                        Log.e("TAG", "onNext: " + addEntryBean.getError_msg() + addEntryBean.getError_code());
+
+//                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
+//                        for (int i = 0; i < detail.size(); i++) {
+//                            AddEntryBean.DetailBean bean = detail.get(i);
+//                            String msg = bean.getMsg();
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                        }
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG = AddEntry", e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
 
     /**
      * 日期

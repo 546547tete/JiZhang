@@ -3,6 +3,7 @@ package com.example.jizhang.fragment;
 import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -128,18 +129,19 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
 
                 String trim = mTimeNewTv.getText().toString().trim();
                 String trim1 = mTimeOldTv.getText().toString().trim();
-                String[] split = trim.split("-");
-                String Y = split[0];
-                String M = split[1];
-                String D = split[2];
+                if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(trim1)){
+                    String[] split = trim.split("-");
+                    String Y = split[0];
+                    String M = split[1];
+                    String D = split[2];
 
-                String[] split1 = trim1.split("-");
-                String oldY = split1[0];
-                String oldM = split1[1];
-                String oldD = split1[2];
+                    String[] split1 = trim1.split("-");
+                    String oldY = split1[0];
+                    String oldM = split1[1];
+                    String oldD = split1[2];
 
-                initData(Y,M,D,oldY,oldM,oldD);
-
+                    initData(Y,M,D,oldY,oldM,oldD);
+                }
                 Log.e(TAG, "onClick: " + trim + trim1);
                 break;
             default:
