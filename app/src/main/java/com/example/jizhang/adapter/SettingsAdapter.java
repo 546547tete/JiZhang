@@ -12,6 +12,8 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jizhang.R;
 import com.example.jizhang.bean.AddEntryBean;
+import com.example.jizhang.bean.CategoriesBean;
+import com.example.jizhang.bean.CategoriesPieBean;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,13 +21,13 @@ import java.util.List;
 public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHolder> {
 
     private Context context;
-    private List<AddEntryBean> list = new ArrayList<>();
+    private List<CategoriesBean> list = new ArrayList<>();
 
     public SettingsAdapter(Context context) {
         this.context = context;
     }
 
-    public void setData(List<AddEntryBean> list) {
+    public void setData(List<CategoriesBean> list) {
         this.list = list;
         notifyDataSetChanged();
     }
@@ -40,7 +42,8 @@ public class SettingsAdapter extends RecyclerView.Adapter<SettingsAdapter.ViewHo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, final int position) {
         ViewHolder viewHolder = holder;
-        AddEntryBean addEntryBean = list.get(position);
+        CategoriesBean categoriesBean = list.get(position);
+        viewHolder.tv_name_rcySettings.setText(categoriesBean.getCategory_name());
 
         viewHolder.img_bianji_rcySettings.setOnClickListener(new View.OnClickListener() {
             @Override

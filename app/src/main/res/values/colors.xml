@@ -6,4 +6,12 @@
     <color name="textColor_black">#2C3231</color>
     <color name="textColor_gray">#9D9F9F</color>
     <color name="gray">#D5D2D2</color>
+
+    <color name="color_74D56C">#74D56C</color>
+    <color name="color_B33B73">#B33B73</color>
+    <color name="color_7BB4E7">#7BB4E7</color>
+    <color name="color_F13412">#F13412</color>
+    <color name="color_AD6CD5">#AD6CD5</color>
+    <color name="color_F44336">#F44336</color>
+    <color name="color_0D2BEE">#0D2BEE</color>
 </resources>

@@ -92,7 +92,7 @@ public class PieChart extends View {
         textPaint = new Paint();
         textPaint.setAntiAlias(true);
         textPaint.setStrokeWidth(30);
-        textPaint.setTextSize(25);
+        textPaint.setTextSize(35);
         mAnimation = new PieChartAnimation();
         mAnimation.setDuration(2000);
     }

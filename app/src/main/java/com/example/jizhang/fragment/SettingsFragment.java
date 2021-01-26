@@ -28,6 +28,8 @@ import com.example.httplibrary.utils.LogUtils;
 import com.example.jizhang.R;
 import com.example.jizhang.adapter.SettingsAdapter;
 import com.example.jizhang.bean.AddEntryBean;
+import com.example.jizhang.bean.CategoriesBean;
+import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
 
@@ -49,7 +51,7 @@ public class SettingsFragment extends Fragment {
     private EditText et_add;
     private Button bt_add;
     private SettingsAdapter settingsAdapter;
-    private List<AddEntryBean> list;
+    private List<CategoriesBean> list;
 
     public SettingsFragment() {
         // Required empty public constructor
@@ -63,7 +65,6 @@ public class SettingsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_settings, container, false);
         initView(view);
         initData();
-
         initListener();
         return view;
     }
@@ -91,10 +92,10 @@ public class SettingsFragment extends Fragment {
     //添加类别
     private void initEditText() {
         String trim = et_add.getText().toString().trim();
-        if (!TextUtils.isEmpty(trim)){
+        if (!TextUtils.isEmpty(trim)) {
             HashMap<String, Object> map = new HashMap<>();
             map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-            map.put("category",trim);
+            map.put("category", trim);
             RetrofitUtils.getInstance()
                     .getAddCategory(map)
                     .subscribeOn(Schedulers.io())
@@ -129,19 +130,21 @@ public class SettingsFragment extends Fragment {
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
         RetrofitUtils.getInstance()
-                .getLeiBie(map)
+                .getCategories("categories/" + ContextUtils.UUID_JIZHANG + "/")
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AddEntryBean>() {
+                .subscribe(new Observer<List<CategoriesBean>>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(AddEntryBean addEntryBean) {
+                    public void onNext(List<CategoriesBean> categoriesPieBeans) {
                         //将数据添加到集合中
+                        list.addAll(categoriesPieBeans);
                         settingsAdapter.setData(list);
+                        Toast.makeText(getActivity(), "查询成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -189,10 +192,10 @@ public class SettingsFragment extends Fragment {
          * 点击图标编辑类型
          * 弹出popupWindow
          */
-        settingsAdapter.setOnSettingLongClickListener(new SettingsAdapter.OnSettingLongClickListener() {
+        settingsAdapter.setOnSettingClickListener(new SettingsAdapter.OnSettingClickListener() {
             @Override
-            public void onClick(int post) {
-                final String text = null;
+            public void onClickImage(int post) {
+                final String category_name = list.get(post).getCategory_name();
                 Display defaultDisplay = getActivity().getWindowManager().getDefaultDisplay();
                 int width = defaultDisplay.getWidth();
                 int height = defaultDisplay.getHeight();
@@ -200,6 +203,7 @@ public class SettingsFragment extends Fragment {
                 final PopupWindow popupWindow = new PopupWindow(inflate, width - 200, height / 3);
                 popupWindow.setBackgroundDrawable(new ColorDrawable());
                 popupWindow.setOutsideTouchable(true);
+                popupWindow.setFocusable(true);
                 popupWindow.showAtLocation(inflate, Gravity.CENTER, 0, 0);
                 alpha(0.5f);
                 TextView tv_update_old = inflate.findViewById(R.id.tv_update_old);
@@ -207,7 +211,7 @@ public class SettingsFragment extends Fragment {
                 Button btn_update_no = inflate.findViewById(R.id.btn_update_no);
                 Button btn_update_ok = inflate.findViewById(R.id.btn_update_ok);
 
-                tv_update_old.setText(text);
+                tv_update_old.setText(category_name);
 
                 //确认修改
                 btn_update_ok.setOnClickListener(new View.OnClickListener() {
@@ -215,9 +219,9 @@ public class SettingsFragment extends Fragment {
                     public void onClick(View v) {
                         String trim = et_update_new.getText().toString().trim();
                         HashMap<String, Object> map = new HashMap<>();
-                        map.put("hardware_id",ContextUtils.UUID_JIZHANG);
-                        map.put("old_category",text);
-                        map.put("new_category",trim);
+                        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
+                        map.put("old_category", category_name);
+                        map.put("new_category", trim);
                         RetrofitUtils.getInstance()
                                 .getUpdateCategory(map)
                                 .subscribeOn(Schedulers.io())
@@ -262,7 +266,6 @@ public class SettingsFragment extends Fragment {
                         alpha(1);
                     }
                 });
-
 
             }
         });

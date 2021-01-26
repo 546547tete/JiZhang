@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,11 +18,11 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
 import com.example.jizhang.R;
-import com.example.jizhang.bean.AddEntryBean;
 import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.bean.PieChartBean;
 import com.example.jizhang.utils.ApiService;
 import com.example.jizhang.utils.ContextUtils;
+import com.example.jizhang.view.PieChart;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -44,6 +45,7 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
     private TextView mTimeOldTv;
     private Button mAddEntryBtn;
     private Calendar instance;
+    private RelativeLayout mShanxingRl;
 
     public MeiZhouFragment() {
         // Required empty public constructor
@@ -67,6 +69,7 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
         mTimeOldTv.setOnClickListener(this);
         mAddEntryBtn = (Button) itemView.findViewById(R.id.btn_AddEntry);
         mAddEntryBtn.setOnClickListener(this);
+        mShanxingRl = (RelativeLayout) itemView.findViewById(R.id.rl_shanxing);
 
         instance = Calendar.getInstance();
     }
@@ -78,9 +81,9 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         ApiService service = build.create(ApiService.class);
-        service.getCategoriesPie("categories_pie/"+
-                ContextUtils.UUID_JIZHANG +"/"+
-                y+"/"+m+"/"+d+"/"+oldY+"/"+oldM+"/"+oldD)
+        service.getCategoriesPie("categories_pie/" +
+                ContextUtils.UUID_JIZHANG + "/" +
+                y + "/" + m + "/" + d + "/" + oldY + "/" + oldM + "/" + oldD)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<List<CategoriesPieBean>>() {
@@ -91,14 +94,34 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onNext(List<CategoriesPieBean> testBean) {
+                        int[] currColor = {R.color.colorAccent
+                                , R.color.color_B33B73
+                                , R.color.color_7BB4E7
+                                , R.color.colorPrimary
+                                , R.color.color_F13412
+                                , R.color.color_AD6CD5
+                                , R.color.colorPrimary
+                                , R.color.color_F44336
+                                , R.color.color_0D2BEE
+                        };
                         List<PieChartBean> list = new ArrayList<>();
+
                         for (int i = 0; i < testBean.size(); i++) {
                             CategoriesPieBean addEntryBean = testBean.get(i);
                             PieChartBean pieChartBean = new PieChartBean();
-                            pieChartBean.setValuer(addEntryBean.getCategory());
-                            Toast.makeText(getActivity(), addEntryBean.getCategory(), Toast.LENGTH_SHORT).show();
-//                            list.add()
+                            String category = addEntryBean.getCategory();
+                            pieChartBean.setValuer(category);
+                            pieChartBean.setAngle((float) addEntryBean.getPercentage());
+
+                            pieChartBean.setColor(currColor[i]);
+
+                            list.add(pieChartBean);
                         }
+
+
+                        PieChart pieChart = new PieChart(getActivity());
+                        mShanxingRl.addView(pieChart);
+                        pieChart.setDate(list);
                     }
 
                     @Override
@@ -126,10 +149,10 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                 break;
             case R.id.btn_AddEntry:
                 // TODO 21/01/26
-
                 String trim = mTimeNewTv.getText().toString().trim();
                 String trim1 = mTimeOldTv.getText().toString().trim();
-                if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(trim1)){
+
+                if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(trim1)) {
                     String[] split = trim.split("-");
                     String Y = split[0];
                     String M = split[1];
@@ -140,7 +163,9 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                     String oldM = split1[1];
                     String oldD = split1[2];
 
-                    initData(Y,M,D,oldY,oldM,oldD);
+                    initData(Y, M, D, oldY, oldM, oldD);
+                } else {
+                    Toast.makeText(getActivity(), "请选择起始时间和结束时间", Toast.LENGTH_SHORT).show();
                 }
                 Log.e(TAG, "onClick: " + trim + trim1);
                 break;
