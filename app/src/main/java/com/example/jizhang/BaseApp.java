@@ -8,7 +8,7 @@ import com.example.httplibrary.HttpGlobalConfig;
 public class BaseApp extends Application {
 
     private static BaseApp getApp;
-    String BASEURL="http://192.168.31.13:8000/";
+    String BASEURL="http://192.168.31.13:8001/";
     @Override
     public void onCreate() {
         super.onCreate();

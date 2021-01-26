@@ -1,6 +1,7 @@
 package com.example.jizhang.fragment;
 
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import com.example.httplibrary.utils.LogUtils;
 import com.example.jizhang.R;
 import com.example.jizhang.bean.AddEntryBean;
+import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
 import com.example.jizhang.utils.UUIDUtils;
@@ -62,41 +64,44 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         return inflate;
     }
 
-    private void initData() {
-        money = mMoneyJizhangEt.getText().toString().trim();
-        leibie = mLeibieJizhangEt.getText().toString().trim();
-        shuoming = mShuomingJizhangEt.getText().toString().trim();
-        time = mTimeJizhangEt.getText().toString().trim();
+    private void initData(String leibie, String shuoming, String money) {
+
 
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-        map.put("category",leibie);
-        map.put("description",shuoming);
-        map.put("amount",money);
-        Log.e("", "initData: "+ContextUtils.UUID_JIZHANG );
+        map.put("category", leibie);
+        map.put("description", shuoming);
+        map.put("amount", money);
+        Log.e("", "initData: " + ContextUtils.UUID_JIZHANG);
         RetrofitUtils.getInstance()
-                .getAddEntry(map)
+                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG  + leibie + shuoming  + money)
+//                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG + "/" + leibie + "/" + shuoming + "/" + money)
+//                .getAddEntry("add_entry/aid633e2151-90ba-4251-a7a0-ead4e0d0ad9a/%E5%A8%B1%E4%B9%90/%E7%9A%84%E9%A3%8E%E6%A0%BC%E5%92%8C%E5%81%A5%E5%BA%B7/"+123)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AddEntryBean>() {
+                .subscribe(new Observer<DataBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(AddEntryBean addEntryBean) {
-                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
-                        for (int i = 0; i < detail.size(); i++) {
-                            AddEntryBean.DetailBean bean = detail.get(i);
-                            String msg = bean.getMsg();
-                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-                        }
+                    public void onNext(DataBean addEntryBean) {
+
+                        Log.e("TAG", "onNext: " + addEntryBean.getError_msg() + addEntryBean.getError_code());
+
+//                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
+//                        for (int i = 0; i < detail.size(); i++) {
+//                            AddEntryBean.DetailBean bean = detail.get(i);
+//                            String msg = bean.getMsg();
+//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
+//                        }
+
                     }
 
                     @Override
                     public void onError(Throwable e) {
-                        Log.e("TAG",e.getMessage());
+                        Log.e("TAG = AddEntry", e.getMessage());
                     }
 
                     @Override
@@ -105,6 +110,8 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                     }
                 });
     }
+
+    private static final String TAG = "JiZhangFragment";
 
     private void initView(@NonNull final View itemView) {
         mMoneyJizhangEt = (EditText) itemView.findViewById(R.id.et_money_jizhang);
@@ -121,7 +128,26 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bt_ok_jizhang:
                 // TODO 21/01/25
-                initData();
+//                money = mMoneyJizhangEt.getText().toString().trim();
+//                leibie = mLeibieJizhangEt.getText().toString().trim();
+//                shuoming = mShuomingJizhangEt.getText().toString().trim();
+//                time = mTimeJizhangEt.getText().toString().trim();
+
+//                Toast.makeText(getContext(), money+leibie+shuoming+time, Toast.LENGTH_SHORT).show();
+//                if (!TextUtils.isEmpty(leibie)) {
+//                    if (!TextUtils.isEmpty(shuoming)) {
+//                        if (!TextUtils.isEmpty(money)) {
+//                            int parseInt = Integer.parseInt(money);
+                            initData(leibie, shuoming, money);
+//                        } else {
+//                            Log.e(TAG, "onClick: money = 空" + money);
+//                        }
+//                    } else {
+//                        Log.e(TAG, "onClick: shuoming = 空" + shuoming);
+//                    }
+//                } else {
+//                    Log.e(TAG, "onClick: leibie = 空" + leibie);
+//                }
 //                Toast.makeText(getContext(), shuoming, Toast.LENGTH_SHORT).show();
                 break;
             default:

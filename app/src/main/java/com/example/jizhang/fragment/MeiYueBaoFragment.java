@@ -7,6 +7,9 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import retrofit2.Retrofit;
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -17,6 +20,8 @@ import android.widget.Toast;
 
 import com.example.jizhang.R;
 import com.example.jizhang.bean.AddEntryBean;
+import com.example.jizhang.bean.TestBean;
+import com.example.jizhang.utils.ApiService;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
 import com.example.jizhang.utils.ZheXianView;
@@ -52,7 +57,8 @@ public class MeiYueBaoFragment extends Fragment {
         bt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                initDate();
+                initDateNew();
+//                initDate();
 //                ZheXianView zheXianView = new ZheXianView(getActivity());
 //                Map<String ,Float> map=new LinkedHashMap<>() ;//一定要用有序的Map
 //                map.put("周一",8.0f);
@@ -67,13 +73,49 @@ public class MeiYueBaoFragment extends Fragment {
         });
     }
 
+    private void initDateNew() {
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl("http://192.168.31.13:8001/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        ApiService service = build.create(ApiService.class);
+        service.getBean("monthly_trend/aid633e2151-90ba-4251-a7a0-ead4e0d0ad9a/2020/10/2021/1")
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<List<TestBean>>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
+
+                    }
+
+                    @Override
+                    public void onNext(List<TestBean> testBean) {
+                        TestBean testBean1 = testBean.get(0);
+                        int amount = testBean1.getAmount();
+                        Toast.makeText(getContext(), amount+"", Toast.LENGTH_SHORT).show();
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAg",e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
+
     private void initDate() {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-        map.put("from_y",2020);
-        map.put("from_m",12);
-        map.put("to_y",2021);
-        map.put("to_m",1);
+        map.put("hardware_id:", ContextUtils.UUID_JIZHANG);
+        map.put("from_y:",2020);
+        map.put("from_m:",12);
+        map.put("to_y:",2021);
+        map.put("to_m:",1);
+        map.put("accept:","application/json");
 
         RetrofitUtils.getInstance()
                 .getMonthlyTrend(map)
