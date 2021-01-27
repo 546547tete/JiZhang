@@ -106,6 +106,9 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                 String money = mMoneyJizhangEt.getText().toString().trim();
                 String trim = tv_time_jizhang.getText().toString().trim();
 
+                if (TextUtils.isEmpty(trim)){
+                    return;
+                }
                 String[] split = trim.split("-");
                 String year = split[0];
                 String month = split[1];
@@ -118,8 +121,8 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                 int parseInt = Integer.parseInt(money);
 
                 if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(leibie)&&!TextUtils.isEmpty(money)&&!TextUtils.isEmpty(shuoming)){
-                    initData(y,m,d,leibie,shuoming,parseInt);
-//                    initDateNew(y,m,d,leibie,shuoming,parseInt);
+//                    initData(y,m,d,leibie,shuoming,parseInt);
+                    initDateNew(y,m,d,leibie,shuoming,parseInt);
                 }else if (TextUtils.isEmpty(leibie)){
                     Toast.makeText(getContext(), "请输入类别", Toast.LENGTH_SHORT).show();
                 }else if (TextUtils.isEmpty(shuoming)){
