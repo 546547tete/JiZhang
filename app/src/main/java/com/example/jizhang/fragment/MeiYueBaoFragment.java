@@ -10,15 +10,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.jizhang.R;
+import com.example.jizhang.adapter.ZheXianRcyAdapter;
 import com.example.jizhang.bean.TestBean;
 import com.example.jizhang.utils.ApiService;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.ZheXianView;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -26,6 +29,9 @@ import java.util.Map;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
@@ -45,6 +51,9 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
     private Button mOkShujuBtn;
     private Calendar instance;
     private ZheXianView mZhexiantu;
+    private RecyclerView rcy;
+    private ArrayList<TestBean> listTest;
+    private ZheXianRcyAdapter zhexianadapter;
 
     public MeiYueBaoFragment() {
         // Required empty public constructor
@@ -71,6 +80,13 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
         mOkShujuBtn = (Button) itemView.findViewById(R.id.btn_ok_shuju);
         mOkShujuBtn.setOnClickListener(this);
         mZhexiantu = (ZheXianView) itemView.findViewById(R.id.zhexiantu);
+
+        rcy = itemView.findViewById(R.id.rcy_zhexiantu);
+        rcy.setLayoutManager(new LinearLayoutManager(getContext()));
+        rcy.addItemDecoration(new DividerItemDecoration(getContext(), LinearLayout.VERTICAL));
+        listTest = new ArrayList<>();
+        zhexianadapter = new ZheXianRcyAdapter(getContext(), listTest);
+        rcy.setAdapter(zhexianadapter);
     }
 
 
@@ -92,6 +108,8 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
 
                     @Override
                     public void onNext(List<TestBean> testBean) {
+                        listTest.addAll(testBean);
+                        zhexianadapter.notifyDataSetChanged();
                         Map<String ,Float> map=new LinkedHashMap<>() ;//一定要用有序的Map
                         for (int i = 0; i < testBean.size(); i++) {
                             TestBean testBean1 = testBean.get(i);

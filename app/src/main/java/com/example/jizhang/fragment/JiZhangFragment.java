@@ -101,80 +101,52 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         switch (v.getId()) {
             case R.id.bt_ok_jizhang:
                 // TODO 21/01/25
-                initDateNew();
-//                money = mMoneyJizhangEt.getText().toString().trim();
-//                leibie = mLeibieJizhangEt.getText().toString().trim();
-//                shuoming = mShuomingJizhangEt.getText().toString().trim();
-//                time = mTimeJizhangEt.getText().toString().trim();
+                String leibie = mLeibieJizhangEt.getText().toString().trim();
+                String shuoming = mShuomingJizhangEt.getText().toString().trim();
+                String money = mMoneyJizhangEt.getText().toString().trim();
+                String trim = tv_time_jizhang.getText().toString().trim();
 
-//                Toast.makeText(getContext(), money+leibie+shuoming+time, Toast.LENGTH_SHORT).show();
-//                if (!TextUtils.isEmpty(leibie)) {
-//                    if (!TextUtils.isEmpty(shuoming)) {
-//                        if (!TextUtils.isEmpty(money)) {
-//                            int parseInt = Integer.parseInt(money);
-//                            initData(leibie, shuoming, money);
-//                        } else {
-//                            Log.e(TAG, "onClick: money = 空" + money);
-//                        }
-//                    } else {
-//                        Log.e(TAG, "onClick: shuoming = 空" + shuoming);
-//                    }
-//                } else {
-//                    Log.e(TAG, "onClick: leibie = 空" + leibie);
-//                }
-//                Toast.makeText(getContext(), shuoming, Toast.LENGTH_SHORT).show();
+                String[] split = trim.split("-");
+                String year = split[0];
+                String month = split[1];
+                String day = split[2];
+
+                int y = Integer.parseInt(year);
+                int m = Integer.parseInt(month);
+                int d = Integer.parseInt(day);
+
+                int parseInt = Integer.parseInt(money);
+
+                if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(leibie)&&!TextUtils.isEmpty(money)&&!TextUtils.isEmpty(shuoming)){
+                    initData(y,m,d,leibie,shuoming,parseInt);
+//                    initDateNew(y,m,d,leibie,shuoming,parseInt);
+                }else if (TextUtils.isEmpty(leibie)){
+                    Toast.makeText(getContext(), "请输入类别", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(shuoming)){
+                    Toast.makeText(getContext(), "请添加备注", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(money)){
+                    Toast.makeText(getContext(), "请输入金额", Toast.LENGTH_SHORT).show();
+                }else if (TextUtils.isEmpty(trim)){
+                    Toast.makeText(getContext(), "请输入日期", Toast.LENGTH_SHORT).show();
+                }
                 break;
             default:
                 break;
         }
     }
 
-    private void initDateNew() {
-        Retrofit build = new Retrofit.Builder()
-                .baseUrl("http://192.168.31.13:8001/")
-                .addConverterFactory(GsonConverterFactory.create())
-                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-                .build();
-        ApiService service = build.create(ApiService.class);
-        service.getAddEntry("add_entry/"+ContextUtils.UUID_JIZHANG+"娱乐"+"唱歌"+123)
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<DataBean>() {
-                    @Override
-                    public void onSubscribe(Disposable d) {
-
-                    }
-
-                    @Override
-                    public void onNext(DataBean dataBean) {
-                        String error_msg = dataBean.getError_msg();
-                        int error_code = dataBean.getError_code();
-                        Toast.makeText(getContext(), error_code+error_msg, Toast.LENGTH_SHORT).show();
-                    }
-
-                    @Override
-                    public void onError(Throwable e) {
-                        Log.e(TAG, "onError: "+ e.getMessage());
-                    }
-
-                    @Override
-                    public void onComplete() {
-
-                    }
-                });
-    }
-
-    private void initData(String leibie, String shuoming, String money) {
+    private void initData(int y, int m, int d, String leibie, String shuoming, int money) {
         HashMap<String, Object> map = new HashMap<>();
-        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-        map.put("category", leibie);
-        map.put("description", shuoming);
-        map.put("amount", money);
+        map.put("hardware_id",ContextUtils.UUID_JIZHANG);
+        map.put("year",y);
+        map.put("month",m);
+        map.put("day",d);
+        map.put("category",leibie);
+        map.put("description",shuoming);
+        map.put("amount",money);
         Log.e("", "initData: " + ContextUtils.UUID_JIZHANG);
         RetrofitUtils.getInstance()
-                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG  + leibie + shuoming  + money)
-//                .getAddEntry("add_entry/" + ContextUtils.UUID_JIZHANG + "/" + leibie + "/" + shuoming + "/" + money)
-//                .getAddEntry("add_entry/aid633e2151-90ba-4251-a7a0-ead4e0d0ad9a/%E5%A8%B1%E4%B9%90/%E7%9A%84%E9%A3%8E%E6%A0%BC%E5%92%8C%E5%81%A5%E5%BA%B7/"+123)
+                .getAddEntry(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(new Observer<DataBean>() {
@@ -185,16 +157,9 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
 
                     @Override
                     public void onNext(DataBean addEntryBean) {
-
-                        Log.e("TAG", "onNext: " + addEntryBean.getError_msg() + addEntryBean.getError_code());
-
-//                        List<AddEntryBean.DetailBean> detail = addEntryBean.getDetail();
-//                        for (int i = 0; i < detail.size(); i++) {
-//                            AddEntryBean.DetailBean bean = detail.get(i);
-//                            String msg = bean.getMsg();
-//                            Toast.makeText(getContext(), msg, Toast.LENGTH_SHORT).show();
-//                        }
-
+                        if (addEntryBean!=null){
+                            Toast.makeText(getContext(), addEntryBean.getError_msg(), Toast.LENGTH_SHORT).show();
+                        }
                     }
 
                     @Override
@@ -238,5 +203,46 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
                 , calendar.get(Calendar.DAY_OF_MONTH)).show();
     }
 
+    private void initDateNew(int y, int m, int d,String leibie, String shuoming, int money) {
+        HashMap<String, Object> map = new HashMap<>();
+        map.put("hardware_id", ContextUtils.UUID_JIZHANG);
+        map.put("year",y);
+        map.put("month",m);
+        map.put("day",d);
+        map.put("category", leibie);
+        map.put("description", shuoming);
+        map.put("amount", money);
+        Retrofit build = new Retrofit.Builder()
+                .baseUrl("http://192.168.31.13:8001/")
+                .addConverterFactory(GsonConverterFactory.create())
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
+                .build();
+        ApiService service = build.create(ApiService.class);
+        service.getAddEntry(map)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Observer<DataBean>() {
+                    @Override
+                    public void onSubscribe(Disposable d) {
 
+                    }
+
+                    @Override
+                    public void onNext(DataBean dataBean) {
+                        if (dataBean.getError_code()==0){
+                            Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
+                        }
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TAG",e.getMessage());
+                    }
+
+                    @Override
+                    public void onComplete() {
+
+                    }
+                });
+    }
 }

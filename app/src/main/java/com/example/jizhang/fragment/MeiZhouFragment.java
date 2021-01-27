@@ -98,6 +98,7 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                                 , R.color.color_B33B73
                                 , R.color.color_7BB4E7
                                 , R.color.colorPrimary
+                                , R.color.color_FFC107
                                 , R.color.color_F13412
                                 , R.color.color_AD6CD5
                                 , R.color.colorPrimary

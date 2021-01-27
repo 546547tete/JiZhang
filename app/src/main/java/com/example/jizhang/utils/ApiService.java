@@ -46,8 +46,9 @@ public interface ApiService {
 
 
     //添加单条消费事件
-    @GET()
-    Observable<DataBean> getAddEntry(@Url String url);
+    @POST("add_entry")
+    @FormUrlEncoded
+    Observable<DataBean> getAddEntry(@FieldMap Map<String,Object> map);
 
     //添加类别
     @POST("add_category")
