@@ -58,7 +58,7 @@ public class PieChart extends View {
     @Override
     protected void onMeasure(int widthMeasureSpec, int heightMeasureSpec) {
         super.onMeasure(widthMeasureSpec, heightMeasureSpec);
-        radius = Math.min(getMeasuredWidth(),getMeasuredHeight()) / 3;
+        radius = Math.min(getMeasuredWidth(),getMeasuredHeight()) / 4;
 
         X = getMeasuredWidth() / 2;
         Y = getMeasuredHeight() / 2;
@@ -164,8 +164,8 @@ public class PieChart extends View {
             canvas.drawText(text, 0, text.length(), ceterX +stopX +dip2px(30)  ,ceterY +stopY + h/2, textPaint);
 
         } else {
-            canvas.drawLine(ceterX +stopX, ceterY +stopY, ceterX +stopX - dip2px(25), ceterY +stopY, linePaint);
-            canvas.drawText(text, 0, text.length(), ceterX +stopX - w - dip2px(30)  ,ceterY+stopY + h/2 , textPaint);
+            canvas.drawLine(ceterX +stopX, ceterY +stopY, ceterX +stopX - dip2px(5), ceterY +stopY, linePaint);
+            canvas.drawText(text, 0, text.length(), ceterX +stopX - w - dip2px(10)  ,ceterY+stopY + h/2 , textPaint);
 
         }
 

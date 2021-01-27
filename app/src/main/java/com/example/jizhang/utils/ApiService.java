@@ -12,11 +12,16 @@ import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
+import okhttp3.RequestBody;
+import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
+import retrofit2.http.HeaderMap;
+import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.PartMap;
@@ -50,18 +55,16 @@ public interface ApiService {
     Observable<DataBean> getAddEntry(@QueryMap Map<String,Object> map);
 
     //添加类别
-    @POST("add_category")
-    @FormUrlEncoded
-    Observable<AddEntryBean> getAddCategory(@PartMap Map<String,Object> queryMap);
+    @POST("add_category/")
+    Observable<DataBean> getAddCategory(@QueryMap Map<String,Object> map);
 
     //修改类别
     @PUT("update_category")
-    @FormUrlEncoded
-    Observable<AddEntryBean> getUpdateCategory(@FieldMap Map<String,Object> queryMap);
+    Observable<AddEntryBean> getUpdateCategory(@QueryMap Map<String,Object> queryMap);
 
     //删除类别
-    @DELETE("delete_category")
-    Observable<AddEntryBean> getDeleteCategory(@QueryMap Map<String,Object> queryMap);
+    @DELETE("delete_category/}")
+    Observable<DataBean> getDeleteCategory(@QueryMap Map<String,Object> queryMap);
 
 
     //每月折线图数据

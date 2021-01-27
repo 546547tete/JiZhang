@@ -10,14 +10,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.jizhang.R;
+import com.example.jizhang.adapter.MeiZhouAdapter;
 import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.bean.PieChartBean;
 import com.example.jizhang.utils.ApiService;
@@ -46,6 +51,8 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
     private Button mAddEntryBtn;
     private Calendar instance;
     private RelativeLayout mShanxingRl;
+    private RecyclerView mShanxingRv;
+    private MeiZhouAdapter meiZhouAdapter;
 
     public MeiZhouFragment() {
         // Required empty public constructor
@@ -70,8 +77,15 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
         mAddEntryBtn = (Button) itemView.findViewById(R.id.btn_AddEntry);
         mAddEntryBtn.setOnClickListener(this);
         mShanxingRl = (RelativeLayout) itemView.findViewById(R.id.rl_shanxing);
+        mShanxingRv = (RecyclerView) itemView.findViewById(R.id.rv_shanxing);
 
         instance = Calendar.getInstance();
+
+        mShanxingRv.setLayoutManager(new LinearLayoutManager(getActivity()));
+        mShanxingRv.addItemDecoration(new DividerItemDecoration(getActivity(), LinearLayout.VERTICAL));
+        meiZhouAdapter = new MeiZhouAdapter(getActivity());
+        mShanxingRv.setAdapter(meiZhouAdapter);
+
     }
 
     private void initData(String y, String m, String d, String oldY, String oldM, String oldD) {
@@ -123,6 +137,7 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                         PieChart pieChart = new PieChart(getActivity());
                         mShanxingRl.addView(pieChart);
                         pieChart.setDate(list);
+                        meiZhouAdapter.setData(testBean);
                     }
 
                     @Override
@@ -153,7 +168,7 @@ public class MeiZhouFragment extends Fragment implements View.OnClickListener {
                 String trim = mTimeNewTv.getText().toString().trim();
                 String trim1 = mTimeOldTv.getText().toString().trim();
 
-                if (!TextUtils.isEmpty(trim)&&!TextUtils.isEmpty(trim1)) {
+                if (!TextUtils.isEmpty(trim) && !TextUtils.isEmpty(trim1)) {
                     String[] split = trim.split("-");
                     String Y = split[0];
                     String M = split[1];

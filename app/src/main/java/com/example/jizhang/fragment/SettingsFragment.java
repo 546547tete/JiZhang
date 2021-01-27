@@ -30,8 +30,12 @@ import com.example.jizhang.adapter.SettingsAdapter;
 import com.example.jizhang.bean.AddEntryBean;
 import com.example.jizhang.bean.CategoriesBean;
 import com.example.jizhang.bean.CategoriesPieBean;
+import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -41,6 +45,8 @@ import io.reactivex.Observer;
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
+import okhttp3.MediaType;
+import okhttp3.RequestBody;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,16 +106,20 @@ public class SettingsFragment extends Fragment {
                     .getAddCategory(map)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(new Observer<AddEntryBean>() {
+                    .subscribe(new Observer<DataBean>() {
                         @Override
                         public void onSubscribe(Disposable d) {
 
                         }
 
                         @Override
-                        public void onNext(AddEntryBean addEntryBean) {
+                        public void onNext(DataBean dataBean) {
                             //将数据添加到集合中
-                            Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
+                            if (dataBean.getError_code()==0){
+                                Toast.makeText(getActivity(), "添加成功", Toast.LENGTH_SHORT).show();
+                            } else {
+                                Toast.makeText(getActivity(), "添加失败，当前类别已经存在", Toast.LENGTH_SHORT).show();
+                            }
                         }
 
                         @Override
@@ -144,7 +154,6 @@ public class SettingsFragment extends Fragment {
                         //将数据添加到集合中
                         list.addAll(categoriesPieBeans);
                         settingsAdapter.setData(list);
-                        Toast.makeText(getActivity(), "查询成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
@@ -175,12 +184,12 @@ public class SettingsFragment extends Fragment {
                         .setNegativeButton("取消", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                deleteNetWork(post);
+
                             }
                         }).setPositiveButton("确定", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-
+                                deleteNetWork(post);
                             }
                         }).create();
                 dialog.setCancelable(true);
@@ -275,24 +284,24 @@ public class SettingsFragment extends Fragment {
     private void deleteNetWork(int post) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
+        map.put("category", "bhidsc");
         RetrofitUtils.getInstance()
                 .getDeleteCategory(map)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Observer<AddEntryBean>() {
+                .subscribe(new Observer<DataBean>() {
                     @Override
                     public void onSubscribe(Disposable d) {
 
                     }
 
                     @Override
-                    public void onNext(AddEntryBean addEntryBean) {
+                    public void onNext(DataBean dataBean) {
                         Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
                     }
 
                     @Override
                     public void onError(Throwable e) {
-
                         LogUtils.e(e.getMessage());
                     }
 
