@@ -113,12 +113,15 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
                         Map<String ,Float> map=new LinkedHashMap<>() ;//一定要用有序的Map
                         for (int i = 0; i < testBean.size(); i++) {
                             TestBean testBean1 = testBean.get(i);
-                            map.put(testBean1.getMonth()+"", (float) testBean1.getAmount());
+                            int month = testBean1.getMonth();
+                            String monthStr = month+"";
+                            String substring = monthStr.substring(4, monthStr.length() );
+                            map.put(substring, (float) testBean1.getAmount());
                         }
 
-                        String[] a=new String[]{"10000","15000","20000","25000","30000"};
+                        String[] a=new String[]{"5000","7000","9000","11000","13000","15000","20000"};
 //                        String[] a=new String[]{"个","十","百","千","万","十万"};
-                        mZhexiantu.startDraw(map,a,"金额",80,16);
+                        mZhexiantu.startDraw(map,a,"金额",60,16);
                     }
 
                     @Override

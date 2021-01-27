@@ -123,7 +123,7 @@ public class ZheXianView extends View {
                         max = a;
                     }
                     canvas.drawLine(yandianx, yuandiany - (i + 1) * gao, yandianx + dp2px(3), yuandiany - (i + 1) * gao, YPaint);
-                    canvas.drawText(ysplit[i], yandianx - (sp2px(textSize) * (ysplit[i].length())), yuandiany - (i + 1) * gao + sp2px(textSize / 2), effectPaint);
+                    canvas.drawText(ysplit[i], yandianx - (sp2px(textSize) * (ysplit[i].length())-sp2px(30)), yuandiany - (i + 1) * gao + sp2px(textSize / 2), effectPaint);
                 }
             }
             if (mapx.size() > 0) {
