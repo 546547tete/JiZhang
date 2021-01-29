@@ -27,15 +27,10 @@ import android.widget.Toast;
 import com.example.httplibrary.utils.LogUtils;
 import com.example.jizhang.R;
 import com.example.jizhang.adapter.SettingsAdapter;
-import com.example.jizhang.bean.AddEntryBean;
 import com.example.jizhang.bean.CategoriesBean;
-import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.RetrofitUtils;
-
-import org.json.JSONException;
-import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -232,18 +227,22 @@ public class SettingsFragment extends Fragment {
                         map.put("old_category", category_name);
                         map.put("new_category", trim);
                         RetrofitUtils.getInstance()
-                                .getUpdateCategory(map)
+                                .getUpdateCategory("update_category/"+ContextUtils.UUID_JIZHANG+"/"+
+                                        category_name+"/"+trim+"/")
                                 .subscribeOn(Schedulers.io())
                                 .observeOn(AndroidSchedulers.mainThread())
-                                .subscribe(new Observer<AddEntryBean>() {
+                                .subscribe(new Observer<DataBean>() {
                                     @Override
                                     public void onSubscribe(Disposable d) {
 
                                     }
 
                                     @Override
-                                    public void onNext(AddEntryBean addEntryBean) {
-                                        Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+                                    public void onNext(DataBean dataBean) {
+                                        if (dataBean.getError_code()==0) {
+                                            Toast.makeText(getActivity(), "修改成功", Toast.LENGTH_SHORT).show();
+                                            LogUtils.e(dataBean.getError_code()+dataBean.getError_msg());
+                                        }
                                     }
 
                                     @Override
@@ -284,7 +283,7 @@ public class SettingsFragment extends Fragment {
     private void deleteNetWork(final int post) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
-        map.put("category", "bhidsc");
+        map.put("category", list.get(post).getCategory_name());
         RetrofitUtils.getInstance()
                 .getDeleteCategory(map)
                 .subscribeOn(Schedulers.io())

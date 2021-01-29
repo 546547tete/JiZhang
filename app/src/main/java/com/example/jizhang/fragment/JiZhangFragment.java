@@ -114,7 +114,6 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         public void onItemSelected(AdapterView<?> arg0, View arg1, int arg2,
                                    long arg3) {
             mSpinnerText.setText(arr[arg2]);
-            LogUtils.e("99999999999999999999999999");
         }
 
         public void onNothingSelected(AdapterView<?> arg0) {

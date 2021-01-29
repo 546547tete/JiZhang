@@ -6,26 +6,15 @@ import com.example.jizhang.bean.CategoriesPieBean;
 import com.example.jizhang.bean.DataBean;
 import com.example.jizhang.bean.EntriesBean;
 import com.example.jizhang.bean.TestBean;
-import com.google.gson.JsonElement;
 
 import java.util.List;
 import java.util.Map;
 
 import io.reactivex.Observable;
-import okhttp3.RequestBody;
-import retrofit2.http.Body;
 import retrofit2.http.DELETE;
-import retrofit2.http.Field;
-import retrofit2.http.FieldMap;
-import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
-import retrofit2.http.Header;
-import retrofit2.http.HeaderMap;
-import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.PartMap;
-import retrofit2.http.Query;
 import retrofit2.http.QueryMap;
 import retrofit2.http.Url;
 
@@ -35,7 +24,7 @@ public interface ApiService {
 
     //查询日期
     @GET("entries")
-    Observable<List<EntriesBean>> getEntries(@QueryMap Map<String,Object> map);
+    Observable<List<EntriesBean>> getEntries(@QueryMap Map<String, Object> map);
 
     //查询类别  扇形图
     @GET()
@@ -47,24 +36,24 @@ public interface ApiService {
 
     //查询月报表
     @GET("monthly_trend")
-    Observable<AddEntryBean> getMonthlyTrend(@QueryMap Map<String,Object> map);
+    Observable<AddEntryBean> getMonthlyTrend(@QueryMap Map<String, Object> map);
 
 
     //添加单条消费事件
     @POST("add_entry/?")
-    Observable<DataBean> getAddEntry(@QueryMap Map<String,Object> map);
+    Observable<DataBean> getAddEntry(@QueryMap Map<String, Object> map);
 
     //添加类别
     @POST("add_category/")
-    Observable<DataBean> getAddCategory(@QueryMap Map<String,Object> map);
+    Observable<DataBean> getAddCategory(@QueryMap Map<String, Object> map);
 
     //修改类别
-    @PUT("update_category")
-    Observable<AddEntryBean> getUpdateCategory(@QueryMap Map<String,Object> queryMap);
+    @PUT()
+    Observable<DataBean> getUpdateCategory(@Url String url);
 
     //删除类别
     @DELETE("delete_category/}")
-    Observable<DataBean> getDeleteCategory(@QueryMap Map<String,Object> queryMap);
+    Observable<DataBean> getDeleteCategory(@QueryMap Map<String, Object> queryMap);
 
 
     //每月折线图数据
