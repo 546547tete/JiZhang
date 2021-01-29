@@ -146,7 +146,7 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
                     }
                 });
     }
-
+//666
     @Override
     public void onClick(View v) {
         switch (v.getId()) {
