@@ -60,7 +60,7 @@ public interface ApiService {
 
     //修改类别
     @PUT("update_category")
-    Observable<AddEntryBean> getUpdateCategory(@QueryMap Map<String,Object> queryMap);
+    Observable<DataBean> getUpdateCategory(@QueryMap Map<String,Object> queryMap);
 
     //删除类别
     @DELETE("delete_category/}")

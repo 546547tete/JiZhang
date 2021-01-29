@@ -102,8 +102,6 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
 
     private void initDateNew(String startYear, String startMonth, String endYear, String endMonth)   {
 
-
-
         Retrofit build = new Retrofit.Builder()
                 .baseUrl("http://192.168.31.13:8001/")
                 .addConverterFactory(GsonConverterFactory.create())
