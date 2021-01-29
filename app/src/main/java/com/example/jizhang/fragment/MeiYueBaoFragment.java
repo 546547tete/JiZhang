@@ -2,6 +2,8 @@ package com.example.jizhang.fragment;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.content.Context;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.util.Log;
@@ -11,6 +13,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,8 +23,11 @@ import com.example.jizhang.bean.TestBean;
 import com.example.jizhang.utils.ApiService;
 import com.example.jizhang.utils.ContextUtils;
 import com.example.jizhang.utils.ZheXianView;
+import com.example.jizhang.view.ChartView;
+import com.example.jizhang.view.Constant;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -54,6 +60,7 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
     private RecyclerView rcy;
     private ArrayList<TestBean> listTest;
     private ZheXianRcyAdapter zhexianadapter;
+    private RelativeLayout rlv;
 
     public MeiYueBaoFragment() {
         // Required empty public constructor
@@ -79,7 +86,10 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
         mEndTimeShujuTv.setOnClickListener(this);
         mOkShujuBtn = (Button) itemView.findViewById(R.id.btn_ok_shuju);
         mOkShujuBtn.setOnClickListener(this);
+
+
         mZhexiantu = (ZheXianView) itemView.findViewById(R.id.zhexiantu);
+//        rlv = itemView.findViewById(R.id.rlv_zhexian);
 
         rcy = itemView.findViewById(R.id.rcy_zhexiantu);
         rcy.setLayoutManager(new LinearLayoutManager(getContext()));
@@ -91,6 +101,9 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
 
 
     private void initDateNew(String startYear, String startMonth, String endYear, String endMonth)   {
+
+
+
         Retrofit build = new Retrofit.Builder()
                 .baseUrl("http://192.168.31.13:8001/")
                 .addConverterFactory(GsonConverterFactory.create())
@@ -111,17 +124,17 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
                         listTest.addAll(testBean);
                         zhexianadapter.notifyDataSetChanged();
                         Map<String ,Float> map=new LinkedHashMap<>() ;//一定要用有序的Map
+                        String[] b1=new String[testBean.size()];
                         for (int i = 0; i < testBean.size(); i++) {
                             TestBean testBean1 = testBean.get(i);
                             int month = testBean1.getMonth();
                             String monthStr = month+"";
                             String substring = monthStr.substring(4, monthStr.length() );
                             map.put(substring, (float) testBean1.getAmount());
+                            b1[i]=testBean1.getAmount()+"";
                         }
-
-                        String[] a=new String[]{"5000","7000","9000","11000","13000","15000","20000"};
-//                        String[] a=new String[]{"个","十","百","千","万","十万"};
-                        mZhexiantu.startDraw(map,a,"金额",60,16);
+                        Arrays.sort(b1);
+                        mZhexiantu.startDraw(map,b1,"金额",60,16);
                     }
 
                     @Override

@@ -85,7 +85,6 @@ public class JiZhangFragment extends Fragment implements View.OnClickListener {
         return inflate;
     }
 
-
     private void initView(@NonNull final View itemView) {
         mMoneyJizhangEt = (EditText) itemView.findViewById(R.id.et_money_jizhang);
         mLeibieJizhangEt = (EditText) itemView.findViewById(R.id.et_leibie_jizhang);
