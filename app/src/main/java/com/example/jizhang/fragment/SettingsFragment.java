@@ -281,7 +281,7 @@ public class SettingsFragment extends Fragment {
     }
 
     //删除接口
-    private void deleteNetWork(int post) {
+    private void deleteNetWork(final int post) {
         HashMap<String, Object> map = new HashMap<>();
         map.put("hardware_id", ContextUtils.UUID_JIZHANG);
         map.put("category", "bhidsc");
@@ -298,6 +298,8 @@ public class SettingsFragment extends Fragment {
                     @Override
                     public void onNext(DataBean dataBean) {
                         Toast.makeText(getActivity(), "删除成功", Toast.LENGTH_SHORT).show();
+                        list.remove(post);
+                        settingsAdapter.notifyDataSetChanged();
                     }
 
                     @Override
