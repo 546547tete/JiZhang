@@ -134,7 +134,7 @@ public class MeiYueBaoFragment extends Fragment implements View.OnClickListener 
                             b1[i]=testBean1.getAmount()+"";
                         }
                         Arrays.sort(b1);
-                        mZhexiantu.startDraw(map,b1,"金额",60,16);
+                        mZhexiantu.startDraw(map,b1,"金额",85,16);
                     }
 
                     @Override
