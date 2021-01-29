@@ -50,7 +50,7 @@
     <com.example.jizhang.utils.ZheXianView
         android:id="@+id/zhexiantu"
         android:layout_width="match_parent"
-        android:layout_height="458dp" />
+        android:layout_height="@dimen/dp_370" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:layout_width="match_parent"
