@@ -47,13 +47,50 @@
             />
 
     </LinearLayout>
+
+
+
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:background="#D5D2D2"
         />
+    <LinearLayout
+        android:layout_marginTop="@dimen/dp_10"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        >
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="@dimen/dp_50"
+            android:text="金额："
+            android:textSize="@dimen/sp_20"
+            android:textColor="#2C3231"
+            android:gravity="center"
+            android:layout_marginLeft="@dimen/dp_30"
+            />
 
+        <EditText
+            android:id="@+id/et_money_jizhang"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_50"
+            android:hint="请输入金额"
+            android:maxLines="1"
+            android:textSize="@dimen/sp_20"
+            android:ellipsize="end"
+            android:layout_marginLeft="@dimen/dp_30"
+            android:textCursorDrawable="@drawable/xiahuaxian"
+            android:background="@drawable/edittext_bg_selector"
+            />
+
+    </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="#D5D2D2"
+        />
     <LinearLayout
         android:layout_marginTop="@dimen/dp_10"
         android:layout_width="match_parent"
@@ -143,42 +180,7 @@
         android:background="#D5D2D2"
         />
 
-    <LinearLayout
-        android:layout_marginTop="@dimen/dp_10"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal"
-        >
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="@dimen/dp_50"
-            android:text="金额："
-            android:textSize="@dimen/sp_20"
-            android:textColor="#2C3231"
-            android:gravity="center"
-            android:layout_marginLeft="@dimen/dp_30"
-            />
-
-        <EditText
-            android:id="@+id/et_money_jizhang"
-            android:layout_width="match_parent"
-            android:layout_height="@dimen/dp_50"
-            android:hint="请输入金额"
-            android:maxLines="1"
-            android:textSize="@dimen/sp_20"
-            android:ellipsize="end"
-            android:layout_marginLeft="@dimen/dp_30"
-            android:textCursorDrawable="@drawable/xiahuaxian"
-            android:background="@drawable/edittext_bg_selector"
-            />
-
-    </LinearLayout>
-    <View
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="#D5D2D2"
-        />
 
     <Button
         android:layout_width="@dimen/dp_230"
